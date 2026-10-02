@@ -232,6 +232,24 @@ sup a{text-decoration:none}
 .gcard figcaption small{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:2px}
 .paddles{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
 .paddles .roundbtn{width:44px;height:44px}
+.cadbtn{display:block;width:100%;padding:0;border:0;background:#212830;border-radius:24px;overflow:hidden;cursor:zoom-in;position:relative;aspect-ratio:4/3}
+.cadbtn img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.cadbtn:hover img{transform:scale(1.03)}
+.cadbtn .zb{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
+/* cad viewer */
+.lb{position:fixed;inset:0;z-index:100;background:#212830;display:flex;flex-direction:column}
+.lb[hidden]{display:none}
+.lb-top{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;background:rgba(17,21,26,.92);border-bottom:1px solid #2c3440}
+.lb-title{flex:1;min-width:0;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-title small{font-weight:500;color:var(--muted);margin-left:8px}
+.lb-btn{width:38px;height:38px;border-radius:50%;border:0;background:#2c3440;color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.lb-btn:hover{background:#3a4452}
+.lb-stage{flex:1;min-height:0;position:relative;touch-action:none;cursor:grab;overflow:hidden}
+.lb-stage.drag{cursor:grabbing}
+.lb-stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lb-scale{position:absolute;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));font:600 12px/1 ui-monospace,Menlo,monospace;color:#dfe6ee;background:rgba(17,21,26,.8);padding:8px 10px 10px;border-radius:10px;pointer-events:none}
+.lb-scale i{display:block;height:4px;border:1.5px solid #dfe6ee;border-top:0;margin-top:6px}
+.lb-hint{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));font-size:12px;color:#aab4c0;background:rgba(17,21,26,.8);padding:8px 10px;border-radius:10px;pointer-events:none}
 
 /* footer */
 footer{margin-top:clamp(96px,12vw,160px);background:#0b0b0c;border-top:1px solid var(--line);padding-block:24px 40px;font-size:12.5px;color:var(--muted);line-height:1.6}
@@ -594,13 +612,14 @@ footer{margin-top:clamp(96px,12vw,160px);background:#0b0b0c;border-top:1px solid
   <div class="wrap">
     <p class="kicker">제작 기록</p>
     <h2 class="hl-l rv">설계에서 칩까지.</h2>
-    <p class="lead rv">CAD 작업 화면과 공정 단계별 사진은 <b>진행되는 대로</b> 추가할 예정입니다.</p>
+    <p class="lead rv">제출한 CAD 도면은 눌러서 µm 단위까지 확대해 볼 수 있습니다. 공정 사진은 <b>진행되는 대로</b> 추가할 예정입니다.</p>
   </div>
   <div class="gal">
     <ul class="gtrack" id="gtrack" aria-label="제작 기록 사진">
-      <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>CAD · 패턴 1 원본<small>AutoCAD, 1 unit = 1 µm</small></figcaption></figure></li>
-      <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>CAD · 패턴 2 원본<small>AutoCAD, 1 unit = 1 µm</small></figcaption></figure></li>
-      <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>CAD · region 파일<small>프레임 − 패턴</small></figcaption></figure></li>
+      <li class="gcard"><figure><button class="cadbtn" type="button" data-cad="img/cad_p1.svg" data-title="CAD · 패턴 1 원본" data-sub="AutoCAD 도면, 1 unit = 1 µm"><img src="img/cad_p1.svg" alt="CAD · 패턴 1 원본" loading="lazy" width="400" height="300"><span class="zb">⤢ 확대해서 보기</span></button><figcaption>CAD · 패턴 1 원본<small>AutoCAD 도면, 1 unit = 1 µm</small></figcaption></figure></li>
+      <li class="gcard"><figure><button class="cadbtn" type="button" data-cad="img/cad_p2.svg" data-title="CAD · 패턴 2 원본" data-sub="AutoCAD 도면, 1 unit = 1 µm"><img src="img/cad_p2.svg" alt="CAD · 패턴 2 원본" loading="lazy" width="400" height="300"><span class="zb">⤢ 확대해서 보기</span></button><figcaption>CAD · 패턴 2 원본<small>AutoCAD 도면, 1 unit = 1 µm</small></figcaption></figure></li>
+      <li class="gcard"><figure><button class="cadbtn" type="button" data-cad="img/cad_p1r.svg" data-title="CAD · 패턴 1 region" data-sub="15 mm 프레임 − 패턴 = 빛을 막는 부분"><img src="img/cad_p1r.svg" alt="CAD · 패턴 1 region" loading="lazy" width="400" height="300"><span class="zb">⤢ 확대해서 보기</span></button><figcaption>CAD · 패턴 1 region<small>15 mm 프레임 − 패턴 = 빛을 막는 부분</small></figcaption></figure></li>
+      <li class="gcard"><figure><button class="cadbtn" type="button" data-cad="img/cad_p2r.svg" data-title="CAD · 패턴 2 region" data-sub="15 mm 프레임 − 패턴 = 빛을 막는 부분"><img src="img/cad_p2r.svg" alt="CAD · 패턴 2 region" loading="lazy" width="400" height="300"><span class="zb">⤢ 확대해서 보기</span></button><figcaption>CAD · 패턴 2 region<small>15 mm 프레임 − 패턴 = 빛을 막는 부분</small></figcaption></figure></li>
       <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>1차 증착 · 리프트오프 후<small>패턴 1 금속</small></figcaption></figure></li>
       <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>2차 증착 후<small>두 층 겹침</small></figcaption></figure></li>
       <li class="gcard"><figure><div class="ph"><span>사진 준비 중</span></div><figcaption>현미경 측정<small>버니어 · 모아레 · 미로</small></figcaption></figure></li>
@@ -613,6 +632,20 @@ footer{margin-top:clamp(96px,12vw,160px);background:#0b0b0c;border-top:1px solid
 </section>
 
 </main>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <div class="lb-top">
+    <div class="lb-title" id="lbTitle"></div>
+    <button class="lb-btn" id="lbOut" type="button" aria-label="축소">−</button>
+    <button class="lb-btn" id="lbIn" type="button" aria-label="확대">+</button>
+    <button class="lb-btn" id="lbFit" type="button" aria-label="전체 보기">⤢</button>
+    <button class="lb-btn" id="lbX" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <div class="lb-scale" id="lbScale"><span></span><i></i></div>
+    <div class="lb-hint">스크롤·핀치로 확대, 드래그로 이동</div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -859,6 +892,67 @@ footer{margin-top:clamp(96px,12vw,160px);background:#0b0b0c;border-top:1px solid
     addEventListener('resize', function(){ if (!qraf) qraf = requestAnimationFrame(qrFrame); });
     qrFrame();
   }
+
+  // cad viewer
+  var lb = $('#lb'), st = $('#lbStage'), svg = null, base = null, vb = null, cache = {}, lastBtn = null;
+  var sc = $('#lbScale'), scT = sc.querySelector('span'), scB = sc.querySelector('i');
+  function setVB(){ svg.setAttribute('viewBox', vb.x+' '+vb.y+' '+vb.w+' '+vb.h); scale(); }
+  function toSvg(cx, cy){ var m = svg.getScreenCTM().inverse(), p = svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(m); }
+  function zoomAt(f, cx, cy){
+    var nw = Math.min(base.w, Math.max(base.w/120, vb.w*f)); f = nw/vb.w;
+    var p = toSvg(cx, cy); vb.x = p.x - (p.x - vb.x)*f; vb.y = p.y - (p.y - vb.y)*f; vb.w *= f; vb.h *= f; setVB();
+  }
+  function center(){ var r = st.getBoundingClientRect(); return [r.left + r.width/2, r.top + r.height/2]; }
+  function scale(){
+    var ppu = svg.getScreenCTM().a, target = 120/ppu, k = Math.pow(10, Math.floor(Math.log10(target))), L = k;
+    [1,2,5,10].forEach(function(m){ if (m*k <= target*1.4) L = m*k; });
+    scB.style.width = Math.round(L*ppu) + 'px';
+    scT.textContent = L >= 1000 ? (L/1000) + ' mm' : L + ' µm';
+  }
+  function openCad(btn){
+    lastBtn = btn; var url = btn.getAttribute('data-cad');
+    $('#lbTitle').innerHTML = btn.getAttribute('data-title') + '<small>' + btn.getAttribute('data-sub') + '</small>';
+    function show(txt){
+      if (svg) svg.remove();
+      st.insertAdjacentHTML('afterbegin', txt); svg = st.querySelector('svg');
+      var v = svg.getAttribute('viewBox').split(/[ ,]+/).map(Number); base = {x:v[0],y:v[1],w:v[2],h:v[3]}; vb = {x:v[0],y:v[1],w:v[2],h:v[3]};
+      lb.hidden = false; document.documentElement.style.overflow = 'hidden'; setVB(); $('#lbX').focus();
+    }
+    if (cache[url]) show(cache[url]);
+    else fetch(url).then(function(r){ return r.text(); }).then(function(t){ cache[url] = t; show(t); });
+  }
+  function closeCad(){ lb.hidden = true; document.documentElement.style.overflow = ''; if (lastBtn) lastBtn.focus(); }
+  document.querySelectorAll('.cadbtn').forEach(function(b){ b.addEventListener('click', function(){ openCad(b); }); });
+  $('#lbX').addEventListener('click', closeCad);
+  $('#lbIn').addEventListener('click', function(){ var c = center(); zoomAt(1/2, c[0], c[1]); });
+  $('#lbOut').addEventListener('click', function(){ var c = center(); zoomAt(2, c[0], c[1]); });
+  $('#lbFit').addEventListener('click', function(){ vb = {x:base.x,y:base.y,w:base.w,h:base.h}; setVB(); });
+  addEventListener('keydown', function(e){ if (!lb.hidden && e.key === 'Escape') closeCad(); });
+  addEventListener('resize', function(){ if (!lb.hidden) scale(); });
+  st.addEventListener('wheel', function(e){ e.preventDefault(); zoomAt(Math.exp(e.deltaY*(e.deltaMode ? 0.05 : 0.0015)), e.clientX, e.clientY); }, {passive:false});
+  st.addEventListener('dblclick', function(e){ zoomAt(1/3, e.clientX, e.clientY); });
+  var pts = {}, anchor = null, pinch = null;
+  function plist(){ return Object.keys(pts).map(function(k){ return pts[k]; }); }
+  st.addEventListener('pointerdown', function(e){
+    st.setPointerCapture(e.pointerId); pts[e.pointerId] = {x:e.clientX, y:e.clientY}; st.classList.add('drag');
+    var l = plist();
+    if (l.length === 1) { anchor = toSvg(e.clientX, e.clientY); pinch = null; }
+    else if (l.length === 2) { pinch = Math.hypot(l[0].x-l[1].x, l[0].y-l[1].y); anchor = null; }
+  });
+  st.addEventListener('pointermove', function(e){
+    if (!pts[e.pointerId]) return; pts[e.pointerId] = {x:e.clientX, y:e.clientY};
+    var l = plist();
+    if (l.length === 1 && anchor) { var p = toSvg(e.clientX, e.clientY); vb.x += anchor.x - p.x; vb.y += anchor.y - p.y; setVB(); }
+    else if (l.length === 2 && pinch) {
+      var d = Math.hypot(l[0].x-l[1].x, l[0].y-l[1].y); zoomAt(pinch/d, (l[0].x+l[1].x)/2, (l[0].y+l[1].y)/2); pinch = d;
+    }
+  });
+  function up(e){
+    delete pts[e.pointerId]; var l = plist();
+    if (!l.length) st.classList.remove('drag');
+    if (l.length === 1) { anchor = toSvg(l[0].x, l[0].y); pinch = null; }
+  }
+  st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
 
   // gallery paddles
   var gt = $('#gtrack');
